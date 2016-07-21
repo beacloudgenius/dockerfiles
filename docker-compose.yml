@@ -1,4 +1,5 @@
-######################################## 
-# Copy example snippets from the example files into this file
-# and run docker-compose up -d to compose the stack
-######################################## 
+################################################################################  
+# Copy YAML snippets from the example files, paste into this file
+# and compose your stack by running
+# docker-compose up -d
+################################################################################  
