@@ -1,5 +1,5 @@
 ######################################## 
-# nginx reverse proxy by jwilder
+# Container based on nginx reverse proxy by jwilder
 ######################################## 
 nginx-proxy:
   ports:
@@ -19,22 +19,22 @@ c1:
     - VIRTUAL_HOST=c1
   restart: always
 ######################################## 
-# Container based on Library Wordpress 
+# Container based on library/wordpress 
 ######################################## 
-wp:
+c2:
   image: wordpress
   expose:
     - "80"
   environment:
     - WORDPRESS_DB_PASSWORD=password
-    - VIRTUAL_HOST=some-host
+    - VIRTUAL_HOST=c2
   links:
     - db:mysql
   volumes:
     - ~/wp-content:/var/www/html/wp-content
   restart: always
 ######################################## 
-# Container based on Library MySQL 
+# Container based on library/mysql 
 ######################################## 
 db:
   image: mysql:5.6
@@ -56,27 +56,27 @@ data:
 ######################################## 
 # Joomla --- needs db 
 ######################################## 
-google:
+c3:
   image: joomla
   links:
     - db:mysql
   expose:
     - "80"
   environment:
-    - VIRTUAL_HOST=google.com
+    - VIRTUAL_HOST=c3
 ######################################## 
 # Redmine --- needs pg 
 ######################################## 
-cnn:
+c4:
   image: redmine
   expose:
     - "3000"
   links:
     - pg:postgres
   environment:
-    - VIRTUAL_HOST=cnn.com
+    - VIRTUAL_HOST=c4
 ######################################## 
-# Container based on Library postgres
+# Container based on library/postgres
 ######################################## 
 pg:
   environment:
