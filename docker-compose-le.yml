@@ -1,0 +1,26 @@
+data:
+  build: data
+
+db:
+  image: mariadb
+  volumes_from:
+    - data
+  volumes:
+    - /home/user/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
+  environment:
+    - MYSQL_ROOT_PASSWORD=secret
+    - MYSQL_DATABASE=db
+
+wp:
+  image: wordpress
+  expose: 
+    - 80
+  links:
+    - db:mysql
+  volumes:
+    - /home/user/dockerfiles/wp-content:/var/www/html/wp-content
+  environment:
+    - VIRTUAL_HOST:someother.cloudgeni.us
+    - LETSENCRYPT_HOST:someother.cloudgeni.us
+    - LETSENCRYPT_EMAIL:nilesh@cloudgeni.us
+    - WORDPRESS_DB_PASSWORD=secret
