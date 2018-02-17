@@ -1,0 +1,30 @@
+docker volume create db_data
+
+docker run -d \
+    --name db \
+    --net cg \
+    -v db_data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=supersecret \
+    -e MYSQL_DATABASE=wordpress \
+    -e MYSQL_USER=username \
+    -e MYSQL_PASSWORD=password \
+    mysql:5.7
+
+docker run -d \
+    --name app \
+    --expose 80 \
+    --net cg \
+    -e VIRTUAL_HOST=foo.bar.com \
+    -e WORDPRESS_DB_HOST=db:3306 \
+    -e WORDPRESS_DB_USER=username \
+    -e WORDPRESS_DB_PASSWORD=password \
+    wordpress
+
+--------------------------------
+docker-compose up
+
+curl -H "Host: blog.thecloudseminar.com" localhost
+
+and after creating a DNS entry:
+
+open http://blog.thecloudseminar.com
