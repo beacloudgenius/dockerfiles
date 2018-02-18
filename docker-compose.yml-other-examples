@@ -6,7 +6,7 @@ db:
   volumes_from:
     - data
   volumes:
-    - /home/user/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
+    - ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
   environment:
     - MYSQL_ROOT_PASSWORD=secret
     - MYSQL_USER=user
@@ -20,7 +20,7 @@ wp:
   links:
     - db:mysql
   volumes:
-    - /home/user/dockerfiles/wp-content:/var/www/html/wp-content
+    - ~/dockerfiles/wp-content:/var/www/html/wp-content
 
 c2:
   image: tutum/wordpress
