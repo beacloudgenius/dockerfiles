@@ -1,34 +1,42 @@
 version: "3"
 
 services:
-   db:
-     image: mysql:5.7
-     volumes:
-       - db_data:/var/lib/mysql
-     restart: always
-     environment:
-       MYSQL_ROOT_PASSWORD: supersecret
-       MYSQL_DATABASE: wordpress
-       MYSQL_USER: username
-       MYSQL_PASSWORD: password
-     container_name: db
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
-   wordpress:
-     depends_on:
-       - db
-     image: wordpress:latest
-     expose:
-       - 80
-     restart: always
-     environment:
-       VIRTUAL_HOST: blog.thecloudseminar.com
-       WORDPRESS_DB_HOST: db:3306
-       WORDPRESS_DB_USER: username
-       WORDPRESS_DB_PASSWORD: password
-     container_name: app
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: supersecret
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+    container_name: db
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    expose:
+      - 80
+    restart: always
+    environment:
+      VIRTUAL_HOST: foo.bar.com
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: username
+      WORDPRESS_DB_PASSWORD: password
+    container_name: app
 
 volumes:
-    db_data:
+  db_data:
 
 networks:
   default:
