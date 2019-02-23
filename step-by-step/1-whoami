@@ -5,6 +5,7 @@ docker run -d \
 
 
 
+docker-compose -f 1-docker-compose.jwilder.yaml up  -d
 
 curl -H "Host: foo.bar.com" localhost
 
