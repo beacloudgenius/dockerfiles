@@ -1,3 +1,3 @@
-FROM ubuntu:14.04
+FROM busybox
 VOLUME /var/lib/mysql
 CMD ["true"]
