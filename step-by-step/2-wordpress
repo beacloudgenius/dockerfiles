@@ -23,8 +23,11 @@ docker run -d \
 --------------------------------
 docker-compose up
 
-curl -H "Host: blog.thecloudseminar.com" localhost
+docker-compose -f 2-docker-compose-wordpress.yaml up  -d
+
+
+curl -H "Host: foo.bar.com" localhost
 
 and after creating a DNS entry:
 
-open http://blog.thecloudseminar.com
+open http://foo.bar.com
