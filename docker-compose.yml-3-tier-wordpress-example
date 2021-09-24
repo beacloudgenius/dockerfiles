@@ -1,23 +1,25 @@
-data:
-  build: data
+version: "2"
+services:
+  data:
+    build: data
 
-db:
-  image: mysql:5.7
-  volumes_from:
-    - data
-  volumes:
-    - ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
-  environment:
-    - MYSQL_ROOT_PASSWORD=secret
-    - MYSQL_USER=user
-    - MYSQL_PASSWORD=password
-    - MYSQL_DATABASE=db
+  db:
+    image: mariadb:10.5.12
+    volumes_from:
+      - data
+    volumes:
+      - ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=username
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=wordpress
 
-wp:
-  image: wordpress
-  ports:
-    - "80:80"
-  links:
-    - db:mysql
-  volumes:
-    - ~/dockerfiles/wp-content:/var/www/html/wp-content
+  wp:
+    image: wordpress:5.8.1-php8.0-apache
+    ports:
+      - "80:80"
+    links:
+      - db:mysql
+    volumes:
+      - ~/dockerfiles/wp-content:/var/www/html/wp-content

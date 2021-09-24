@@ -1,0 +1,28 @@
+A and B are equivalent.
+
+A: executing this one command
+
+    docker-compose -f 1-docker-compose.jwilder.yaml up  -d
+
+and test it:
+
+    curl -H "Host: foo.bar.com" localhost
+
+and cleanup:
+
+    docker-compose -f 1-docker-compose.jwilder.yaml  down
+
+B: executing these two commands
+
+    sh 1-jwilder-nginx-proxy
+    sh 1-whoami
+
+and test it:
+
+    curl -H "Host: foo.bar.com" localhost
+
+and cleanup:
+
+    docker rm -f whoami nginx-proxy
+
+Alternatively, if you have proper DNS setup provided you own `bar.com`, you can visit http://foo.bar.com

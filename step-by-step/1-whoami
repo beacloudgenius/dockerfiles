@@ -2,11 +2,3 @@ docker run -d \
       --name whoami \
       -e VIRTUAL_HOST=foo.bar.com \
       jwilder/whoami
-
-
-
-docker-compose -f 1-docker-compose.jwilder.yaml up  -d
-
-curl -H "Host: foo.bar.com" localhost
-
-http://foo.bar.com
