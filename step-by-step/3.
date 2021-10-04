@@ -1,0 +1,74 @@
+version: "2"
+services:
+    nginx-proxy:
+        image: nginxproxy/nginx-proxy
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+			- certs:/etc/nginx/certs
+    		- vhost:/etc/nginx/vhost.d
+    		- html:/usr/share/nginx/html
+    nginx-proxy-letsencrypt:
+        image: nginxproxy/acme-companion
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+			- acme:/etc/acme.sh
+        volumes_from:
+            - nginx-proxy
+        environment:
+            DEFAULT_EMAIL: "nilesh@cloudgeni.us"
+    wp:
+        image: wordpress
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST: db_for_wp
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: password
+            WORDPRESS_DB_NAME: wordpress
+            VIRTUAL_HOST: wp.cloudgenius.app
+            LETSENCRYPT_HOST: wp.cloudgenius.app
+        volumes:
+            - wordpress:/var/www/html
+    wp3:
+        image: wordpress
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST: db_for_wp3
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: password
+            WORDPRESS_DB_NAME: wordpress
+            VIRTUAL_HOST: wp3.cloudgenius.app
+            LETSENCRYPT_HOST: wp3.cloudgenius.app
+        volumes:
+            - wordpress:/var/www/html
+    db_for_wp:
+        image: mysql:5.7
+        restart: always
+        environment:
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: password
+            MYSQL_RANDOM_ROOT_PASSWORD: reallycomplex
+        volumes:
+            - db_for_wp:/var/lib/mysql
+    db_for_wp3:
+        image: mysql:5.7
+        restart: always
+        environment:
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: password
+            MYSQL_RANDOM_ROOT_PASSWORD: reallycomplex
+        volumes:
+            - db_for_wp3:/var/lib/mysql
+volumes:
+    wordpress:
+    wp3:
+    db_for_wp:
+    db_for_wp3:
+	certs:
+	vhost:
+	html:
+	acme:
