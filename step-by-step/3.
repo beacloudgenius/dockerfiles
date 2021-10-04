@@ -42,7 +42,7 @@ services:
             VIRTUAL_HOST: wp3.cloudgenius.app
             LETSENCRYPT_HOST: wp3.cloudgenius.app
         volumes:
-            - wordpress:/var/www/html
+            - wp:/var/www/html
     db_for_wp:
         image: mysql:5.7
         restart: always
@@ -64,7 +64,7 @@ services:
         volumes:
             - db_for_wp3:/var/lib/mysql
 volumes:
-    wordpress:
+    wp:
     wp3:
     db_for_wp:
     db_for_wp3:
