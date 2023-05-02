@@ -21,9 +21,9 @@ docker run -d \
     wordpress
 
 --------------------------------
-docker-compose up
+docker compose up
 
-docker-compose -f 2-docker-compose-wordpress.yaml up  -d
+docker compose -f 2-docker-compose-wordpress.yaml up  -d
 
 
 curl -H "Host: foo.bar.com" localhost

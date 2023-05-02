@@ -1,4 +1,5 @@
 docker run -d \
       --name whoami \
       -e VIRTUAL_HOST=foo.bar.com \
+	  -e VIRTUAL_PORT=8000 \
       jwilder/whoami

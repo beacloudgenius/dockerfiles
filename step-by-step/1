@@ -2,15 +2,15 @@ A and B are equivalent.
 
 A: executing this one command
 
-    docker-compose -f 1-docker-compose.jwilder.yaml up  -d
+    docker compose -f 1-docker-compose.jwilder.yaml up  -d
 
 and test it:
 
-    curl -H "Host: foo.bar.com" localhost
+    curl -H "Host: foo.bar.com" localhost:80
 
 and cleanup:
 
-    docker-compose -f 1-docker-compose.jwilder.yaml  down
+    docker compose -f 1-docker-compose.jwilder.yaml  down
 
 B: executing these two commands
 
