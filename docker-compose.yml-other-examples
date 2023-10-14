@@ -1,63 +1,66 @@
-data:
-  build: data
+version: "2"
+services:
 
-db:
-  image: mysql:5.6
-  volumes_from:
-    - data
-  volumes:
-    - ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
-  environment:
-    - MYSQL_ROOT_PASSWORD=secret
-    - MYSQL_USER=user
-    - MYSQL_PASSWORD=password
-    - MYSQL_DATABASE=db
+	data:
+	build: data
 
-wp:
-  image: wordpress
-  ports:
-    - "80:80"
-  links:
-    - db:mysql
-  volumes:
-    - ~/dockerfiles/wp-content:/var/www/html/wp-content
+	db:
+	image: mysql:5.6
+	volumes_from:
+		- data
+	volumes:
+		- ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
+	environment:
+		- MYSQL_ROOT_PASSWORD=secret
+		- MYSQL_USER=user
+		- MYSQL_PASSWORD=password
+		- MYSQL_DATABASE=db
 
-c2:
-  image: tutum/wordpress
-  ports:
-    - "81:80"
+	wp:
+	image: wordpress
+	ports:
+		- "80:80"
+	links:
+		- db:mysql
+	volumes:
+		- ~/dockerfiles/wp-content:/var/www/html/wp-content
 
-c3:
-  image: tutum/wordpress
-  ports:
-    - "82:80"
+	c2:
+	image: tutum/wordpress
+	ports:
+		- "81:80"
 
-c4:
-  image: joomla
-  links:
-    - db:mysql
-  ports:
-    - "83:80"
+	c3:
+	image: tutum/wordpress
+	ports:
+		- "82:80"
 
-c5:
-  image: redmine
-  ports:
-    - "84:3000"
+	c4:
+	image: joomla
+	links:
+		- db:mysql
+	ports:
+		- "83:80"
 
-pg:
-  environment:
-    - POSTGRES_PASSWORD=secret
-    - POSTGRES_USER=redmine
-  image: postgres
+	c5:
+	image: redmine
+	ports:
+		- "84:3000"
 
-c6:
-  image: redmine
-  ports:
-    - "85:3000"
-  links:
-    - pg:postgres
+	pg:
+	environment:
+		- POSTGRES_PASSWORD=secret
+		- POSTGRES_USER=redmine
+	image: postgres
 
-c7:
-  image: drupal
-  ports:
-    - "86:80"
+	c6:
+	image: redmine
+	ports:
+		- "85:3000"
+	links:
+		- pg:postgres
+
+	c7:
+	image: drupal
+	ports:
+		- "86:80"

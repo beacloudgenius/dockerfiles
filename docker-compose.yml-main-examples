@@ -1,86 +1,88 @@
-########################################
-# Container based on nginx reverse proxy by jwilder
-########################################
-nginx-proxy:
-  ports:
-    - "80:80"
-  volumes:
-    - /var/run/docker.sock:/tmp/docker.sock:ro
-  image: nginxproxy/nginx-proxy
-  restart: always
-########################################
-# Container based on tutum/wordpress - all in one demo - not good for production
-########################################
-c1:
-  image: tutum/wordpress
-  expose:
-    - "80"
-  environment:
-    - VIRTUAL_HOST=c1
-  restart: always
-########################################
-# Container based on library/wordpress
-########################################
-c2:
-  image: wordpress:latest
-  expose:
-    - "80"
-  environment:
-    - WORDPRESS_DB_PASSWORD=password
-    - VIRTUAL_HOST=c2
-  links:
-    - db:mysql
-  volumes:
-    - ./wp-content:/var/www/html/wp-content
-  restart: always
-########################################
-# Container based on library/mysql
-########################################
-db:
-  image: mariadb:10.5.12
-  volumes_from:
-    - data
-  volumes:
-    - ./etc/mysql/conf.d:/etc/mysql/conf.d
-  environment:
-    - MYSQL_ROOT_PASSWORD=secret
-    - MYSQL_USER=user
-    - MYSQL_PASSWORD=password
-    - MYSQL_DATABASE=db
-  restart: always
-########################################
-# Empty container to store data from db
-########################################
-data:
-  build: data
-########################################
-# Joomla --- needs db
-########################################
-c3:
-  image: joomla
-  links:
-    - db:mysql
-  expose:
-    - "80"
-  environment:
-    - VIRTUAL_HOST=c3
-########################################
-# Redmine --- needs pg
-########################################
-c4:
-  image: redmine
-  expose:
-    - "3000"
-  links:
-    - pg:postgres
-  environment:
-    - VIRTUAL_HOST=c4
-########################################
-# Container based on library/postgres
-########################################
-pg:
-  environment:
-    - POSTGRES_PASSWORD=secret
-    - POSTGRES_USER=redmine
-  image: postgres
-########################################
+version: "2"
+services:
+	########################################
+	# Container based on nginx reverse proxy by jwilder
+	########################################
+	nginx-proxy:
+	ports:
+		- "80:80"
+	volumes:
+		- /var/run/docker.sock:/tmp/docker.sock:ro
+	image: nginxproxy/nginx-proxy
+	restart: always
+	########################################
+	# Container based on tutum/wordpress - all in one demo - not good for production
+	########################################
+	c1:
+	image: tutum/wordpress
+	expose:
+		- "80"
+	environment:
+		- VIRTUAL_HOST=c1
+	restart: always
+	########################################
+	# Container based on library/wordpress
+	########################################
+	c2:
+	image: wordpress:latest
+	expose:
+		- "80"
+	environment:
+		- WORDPRESS_DB_PASSWORD=password
+		- VIRTUAL_HOST=c2
+	links:
+		- db:mysql
+	volumes:
+		- ./wp-content:/var/www/html/wp-content
+	restart: always
+	########################################
+	# Container based on library/mysql
+	########################################
+	db:
+	image: mariadb:10.5.12
+	volumes_from:
+		- data
+	volumes:
+		- ./etc/mysql/conf.d:/etc/mysql/conf.d
+	environment:
+		- MYSQL_ROOT_PASSWORD=secret
+		- MYSQL_USER=user
+		- MYSQL_PASSWORD=password
+		- MYSQL_DATABASE=db
+	restart: always
+	########################################
+	# Empty container to store data from db
+	########################################
+	data:
+	build: data
+	########################################
+	# Joomla --- needs db
+	########################################
+	c3:
+	image: joomla
+	links:
+		- db:mysql
+	expose:
+		- "80"
+	environment:
+		- VIRTUAL_HOST=c3
+	########################################
+	# Redmine --- needs pg
+	########################################
+	c4:
+	image: redmine
+	expose:
+		- "3000"
+	links:
+		- pg:postgres
+	environment:
+		- VIRTUAL_HOST=c4
+	########################################
+	# Container based on library/postgres
+	########################################
+	pg:
+	environment:
+		- POSTGRES_PASSWORD=secret
+		- POSTGRES_USER=redmine
+	image: postgres
+	########################################
