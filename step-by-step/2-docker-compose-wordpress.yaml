@@ -40,5 +40,5 @@ volumes:
 
 networks:
   default:
-    external:
-      name: cg
+    name: cg
+    external: true
