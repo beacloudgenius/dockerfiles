@@ -18,10 +18,9 @@ docker run -d \
     -e WORDPRESS_DB_HOST=db:3306 \
     -e WORDPRESS_DB_USER=username \
     -e WORDPRESS_DB_PASSWORD=password \
-    wordpress
+    wordpress:6.3.2
 
 --------------------------------
-docker compose up
 
 docker compose -f 2-docker-compose-wordpress.yaml up  -d
 

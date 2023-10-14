@@ -1,0 +1,10 @@
+docker network create cg
+docker volume create db_data
+docker compose -f 2-docker-compose-wordpress.yaml up  -d
+
+
+curl -H "Host: foo.bar.com" localhost
+
+and after creating a DNS entry:
+
+open http://foo.bar.com
