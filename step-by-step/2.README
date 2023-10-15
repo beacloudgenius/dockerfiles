@@ -1,10 +1,51 @@
-docker network create cg
-docker volume create db_data
+# DELETE ALL
+
+docker compose -f 2-docker-compose-wordpress.yaml down
+docker volume rm -f $(docker volume ls -q)
+
+# BEGIN
+
 docker compose -f 2-docker-compose-wordpress.yaml up  -d
 
+# RESTART
+
+docker compose -f 2-docker-compose-wordpress.yaml restart
+docker compose -f 2-docker-compose-wordpress.yaml up  -d --force-recreate
+
+# VERIFY
 
 curl -H "Host: foo.bar.com" localhost
 
-and after creating a DNS entry:
+and after creating a DNS entry:  open http://foo.bar.com
 
-open http://foo.bar.com
+# CHECK
+
+docker ps -a
+docker network ls
+docker volume ls
+
+# INVESTIGATE wordpress
+
+docker exec -it app bash
+apt update && apt install iputils-ping vim mariadb-client -y
+
+mysql -h mysql -u username -ppassword
+mysql -h mysql -u root -psupersecret
+
+
+# INVESTIGATE mysql
+
+docker exec -it mysql bash
+
+apt update && apt install iputils-ping vim mariadb-client -y
+
+mariadb -u username -ppassword
+mariadb -u root -psupersecret
+
+show variables like '%max_allowed_packet';
+show global variables like "%max_connections";
+show global variables like "%bind-address";
+show variables like '%bind-address';
+
+
+mariadb -uroot -psupersecret -e 'show global variables like "max_connections"';

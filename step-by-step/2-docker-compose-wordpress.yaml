@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   nginx-proxy:
@@ -8,37 +8,52 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - cg
 
-  db:
-    image: mysql:5.7
+  mysql:
+    # We use a mariadb image which supports both amd64 & arm64 architecture
+    image: mariadb:11.1.2-jammy
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --bind-address=0.0.0.0
+      --max_connections=666
+      # --transaction-isolation=READ-COMMITTED
     volumes:
       - db_data:/var/lib/mysql
+      - ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: supersecret
       MYSQL_DATABASE: wordpress
       MYSQL_USER: username
       MYSQL_PASSWORD: password
-    container_name: db
+    expose:
+      - 3306
+    container_name: mysql
+    networks:
+      - cg
 
   wordpress:
-    depends_on:
-      - db
     image: wordpress:6.3.2
     expose:
       - 80
     restart: always
+    volumes:
+      - wp_data:/var/www/html
     environment:
       VIRTUAL_HOST: foo.bar.com
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_USER: username
       WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress
     container_name: app
+    networks:
+      - cg
 
 volumes:
   db_data:
+  wp_data:
 
 networks:
-  default:
-    name: cg
-    external: true
+  cg:
