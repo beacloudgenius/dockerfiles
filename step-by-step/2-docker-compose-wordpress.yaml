@@ -14,16 +14,16 @@ services:
   mysql:
     image: mariadb:11.1.2-jammy
     command:
-      --default-authentication-plugin=mysql_native_password
-      --bind-address=0.0.0.0
+      # --default-authentication-plugin=mysql_native_password
+      # --bind-address=0.0.0.0
       # --max_connections=666
       # --transaction-isolation=READ-COMMITTED
-    # volumes:
-      # - db_data:/var/lib/mysql
+    volumes:
+      - db_data:/var/lib/mysql
       # - ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
     restart: always
     environment:
-      # MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: supersecret
       MYSQL_DATABASE: wordpress
       MYSQL_USER: username
@@ -44,10 +44,10 @@ services:
       # MySQL: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       # Redis: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       # RabbitMQ: rabbitmq-diagnostics -q ping
-      start_period: 5s
+      start_period: 55s
       interval: 1s
-      timeout: 5s
-      retries: 5
+      timeout: 15s
+      retries: 15
     container_name: mysql
     networks:
       - cg
