@@ -30,21 +30,16 @@ docker volume ls
 
 # INVESTIGATE wordpress
 
-docker exec -it app mysql -h mysql -u username -ppassword
-
-
 docker exec -it app bash
 apt update && apt install iputils-ping vim mariadb-client -y
+
+docker exec -it app mysql -h mysql -u username -ppassword
 
 mysql -h mysql -u username -ppassword
 mysql -h mysql -u root -psupersecret
 
 
 # INVESTIGATE mysql
-
-docker exec -it mysql cat /etc/mysql/conf.d/custom-my.cnf
-docker exec -it mysql mariadb -uroot -psupersecret -e 'show global variables like "max_connections"';
-
 
 docker exec -it mysql bash
 
@@ -53,6 +48,7 @@ apt update && apt install iputils-ping vim mariadb-client -y
 mariadb -u username -ppassword
 mariadb -u root -psupersecret
 
+
 show variables like '%max_allowed_packet';
 show global variables like "%max_connections";
 show global variables like "%bind-address";
@@ -60,3 +56,7 @@ show variables like '%bind-address';
 
 
 mariadb -uroot -psupersecret -e 'show global variables like "max_connections"';
+
+
+docker exec -it mysql cat /etc/mysql/conf.d/custom-my.cnf
+docker exec -it mysql mariadb -uroot -psupersecret -e 'show global variables like "max_connections"';
