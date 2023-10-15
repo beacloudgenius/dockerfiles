@@ -42,12 +42,15 @@ mysql -h mysql -u root -psupersecret
 # INVESTIGATE mysql
 
 docker exec -it mysql bash
-
-apt update && apt install iputils-ping vim mariadb-client -y
-
 mariadb -u username -ppassword
 mariadb -u root -psupersecret
 
+mariadb-admin -u username -ppassword ping --silent
+mariadb-admin -u username -ppassword -h mysql ping --silent
+mariadb-admin -u username -ppassword -h mysql ping --silent
+
+
+apt update && apt install iputils-ping vim mariadb-client -y
 
 show variables like '%max_allowed_packet';
 show global variables like "%max_connections";
