@@ -9,8 +9,12 @@ docker compose -f 2-docker-compose-wordpress.yaml up  -d
 
 # RESTART
 
-docker compose -f 2-docker-compose-wordpress.yaml restart
 docker compose -f 2-docker-compose-wordpress.yaml up  -d --force-recreate
+
+
+
+docker compose -f 2-docker-compose-wordpress.yaml restart
+
 
 # VERIFY
 
