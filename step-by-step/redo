@@ -3,15 +3,13 @@
 docker compose -f 3-docker-compose-cloudflared.yaml down
 docker volume rm -f $(docker volume ls -q)
 
-docker compose -f 3-docker-compose-cloudflared.yaml up  mysql -d
-docker compose -f 3-docker-compose-cloudflared.yaml up  wordpress -d
-
-
+# docker compose -f 3-docker-compose-cloudflared.yaml up  mysql -d
+# docker compose -f 3-docker-compose-cloudflared.yaml up  wordpress -d
 # docker compose -f 2-docker-compose-wordpress.yaml up  nginx-proxy -d
 # docker compose -f 3-docker-compose-cloudflared.yaml up cloudflared -d
 
 # docker compose -f 2-docker-compose-wordpress.yaml up  -d --wait
-docker compose -f 3-docker-compose-cloudflared.yaml up  -d --wait
+# docker compose -f 3-docker-compose-cloudflared.yaml up  -d --wait
 
 # RESTART
 
