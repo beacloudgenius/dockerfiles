@@ -1,0 +1,17 @@
+
+
+
+
+      test: ["CMD", 'mariadb-admin', 'ping', "--silent", '-h', 'mysql', '-u', 'username', '-ppassword' ]
+
+
+mariadb-admin ping --silent -h mysql -u username -ppassword
+
+mariadb-admin ping -h mysql -u username -pwrong
+
+mariadb-admin ping -h mysql -u username -ppassword
+
+
+mariadb-admin ping -h mysql -u root -ppassword
+
+mariadb-admin ping -h mysql -u root -psupersecret

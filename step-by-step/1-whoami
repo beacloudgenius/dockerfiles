@@ -2,4 +2,15 @@ docker run -d \
       --name whoami \
       -e VIRTUAL_HOST=foo.bar.com \
 	  -e VIRTUAL_PORT=8000 \
+	  --network=step-by-step_default \
       jwilder/whoami
+
+
+
+07bab69edc61   step-by-step_default   bridge    local
+
+
+
+
+docker network create -d step-by-step_default
+docker run --network=step-by-step_default -itd --name=container3 busybox

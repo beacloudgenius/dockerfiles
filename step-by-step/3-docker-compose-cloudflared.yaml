@@ -1,0 +1,89 @@
+version: "3.9"
+
+services:
+  cloudflared:
+    container_name: foobar
+    image: erisamoe/cloudflared
+    command: tunnel --no-autoupdate run foobar
+    restart: always
+    environment:
+      READ_IP_HEADER: Cf-Connecting-Ip
+    volumes:
+      - $PWD/cloudflared:/etc/cloudflared
+    depends_on:
+      - wordpress
+    networks:
+      - cg
+
+  mysql:
+    image: mariadb:11.1.2-jammy
+    command:
+      # --default-authentication-plugin=mysql_native_password
+      # --bind-address=0.0.0.0
+      # --max_connections=666
+      # --transaction-isolation=READ-COMMITTED
+    volumes:
+      - db_data:/var/lib/mysql
+      # - ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
+    restart: always
+    environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: supersecret
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+    expose:
+      - 3306
+    healthcheck:
+      test: ["CMD", 'mariadb-admin', 'ping', "--silent", '-h', 'mysql', '-u', 'username', '-ppassword' ]
+      # mariadb-admin -u username -ppassword -h mysql ping --silent
+      # test: ["CMD", "mariadb-admin", "-P", "3306", '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD', "ping", "--silent"]
+      # test: ["CMD", 'mariadb-admin', 'ping', "--silent", '-h', 'mysql', "-P", "3306", '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      # test: ["CMD", "mariadb-admin" ,"ping", "-h", "localhost"]
+      # test: ["CMD", 'mariadb-admin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      # test: ["CMD", 'mariadb-admin', 'ping', '-h', '%', '-u', '$$MYSQL_USER', '--password=$$MYSQL_PASSWORD' ]
+      # test: ["CMD-SHELL", "mariadb-admin ping -P $$MYSQL_PORT -p$$MYSQL_ROOT_PASSWORD | grep 'mysqld is alive' || exit 1"]
+      # mariadb-admin ping -h mysql -P 3306 -psupersecret
+      # Postgres: [ "CMD", "pg_isready" ]
+      # MySQL: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      # Redis: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      # RabbitMQ: rabbitmq-diagnostics -q ping
+      start_period: 55s
+      interval: 1s
+      timeout: 15s
+      retries: 15
+    container_name: mysql
+    networks:
+      - cg
+
+  wordpress:
+    image: wordpress:6.3.2
+    expose:
+      - 80
+    restart: always
+    volumes:
+      - wp_data:/var/www/html
+    environment:
+      VIRTUAL_HOST: foo.bar.com
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: username
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress
+    container_name: app
+    links:
+      - mysql
+    depends_on:
+      mysql:
+        condition: service_healthy
+        # condition: service_started
+        # condition: service_completed_successfully
+
+    networks:
+      - cg
+
+volumes:
+  db_data:
+  wp_data:
+
+networks:
+  cg:
