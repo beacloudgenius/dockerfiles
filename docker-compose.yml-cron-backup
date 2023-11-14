@@ -1,0 +1,20 @@
+version: "2"
+services:
+  data:
+    build: data
+
+  db:
+    build: db
+    volumes_from:
+      - data
+    volumes:
+      - ~/dockerfiles/etc/mysql/conf.d:/etc/mysql/conf.d
+
+  wp:
+    image: wordpress:5.8.1-php8.0-apache
+    ports:
+      - "80:80"
+    links:
+      - db:mysql
+    volumes:
+      - ~/dockerfiles/wp-content:/var/www/html/wp-content
