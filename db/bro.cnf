@@ -5,3 +5,7 @@ password=password
 [mysql]             # NEEDED FOR RESTORE
 user=username
 password=password
+
+[mariabackup]
+user=root
+password=secret
