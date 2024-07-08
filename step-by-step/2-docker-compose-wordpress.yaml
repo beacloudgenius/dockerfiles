@@ -51,7 +51,7 @@ services:
       - cg
 
   wordpress:
-    image: wordpress:6.3.2
+    image: wordpress:6.5.5
     expose:
       - 80
     restart: always
