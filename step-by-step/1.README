@@ -24,5 +24,6 @@ and test it:
 and cleanup:
 
     docker rm -f whoami nginx-proxy
+		docker network rm  step-by-step_default 
 
 Alternatively, if you have proper DNS setup provided you own `bar.com`, you can visit http://foo.bar.com

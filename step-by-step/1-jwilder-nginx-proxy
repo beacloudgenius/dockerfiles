@@ -2,4 +2,5 @@ docker run -d \
     --name nginx-proxy \
     -p 80:80 \
     -v /var/run/docker.sock:/tmp/docker.sock:ro \
+		--network=step-by-step_default \
     nginxproxy/nginx-proxy
