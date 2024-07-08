@@ -62,7 +62,7 @@ services:
     volumes:
       - wp_data:/var/www/html
     environment:
-      VIRTUAL_HOST: foo.bar.com
+      VIRTUAL_HOST: foobar.thecloudseminar.com
       WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_USER: username
       WORDPRESS_DB_PASSWORD: password
