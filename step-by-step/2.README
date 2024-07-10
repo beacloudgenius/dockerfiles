@@ -1,7 +1,9 @@
 # DELETE ALL
 
-docker compose -f 2-docker-compose-wordpress.yaml down
-docker volume rm -f $(docker volume ls -q)
+# docker compose -f 2-docker-compose-wordpress.yaml down
+# docker volume rm -f $(docker volume ls -q)
+
+docker compose -f 2-docker-compose-wordpress.yaml down --volumes  --remove-orphans
 
 # BEGIN
 
@@ -31,8 +33,11 @@ docker volume ls
 # INVESTIGATE wordpress
 
 docker exec -it app bash
-apt update && apt install iputils-ping vim mariadb-client -y
 
+	apt update && apt install iputils-ping vim mariadb-client -y
+	mysql -h mysql -u username -ppassword
+	exit
+	
 docker exec -it app mysql -h mysql -u username -ppassword
 
 mysql -h mysql -u username -ppassword
