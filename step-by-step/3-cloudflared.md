@@ -8,7 +8,7 @@ docker run -v $PWD/cloudflared:/etc/cloudflared erisamoe/cloudflared tunnel rout
 
 # docker run -v $PWD/cloudflared:/etc/cloudflared erisamoe/cloudflared --hostname foobar.thecloudseminar.com --name foobar --hello-world
 
-docker compose up -f 3-docker-compose-cloudflared.yaml -d --force-recreate
+docker compose -f 3-docker-compose-cloudflared.yaml up -d --force-recreate
 docker compose logs -f
 
 
