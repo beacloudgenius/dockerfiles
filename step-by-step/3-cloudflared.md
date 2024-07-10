@@ -28,4 +28,8 @@ Run this on the host
 
 https://github.com/Erisa/cloudflared-docker/issues/12
 
-	sudo sysctl -w net.core.rmem_max=2500000
+#	sudo sysctl -w net.core.rmem_max=2500000
+```
+sudo sysctl -w net.core.rmem_max=7500000
+sudo sysctl -w net.core.wmem_max=7500000
+```
