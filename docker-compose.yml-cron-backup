@@ -1,9 +1,3 @@
-################################################################################
-# Copy YAML snippets from the example files, paste into this file
-# and compose your stack by running
-# docker compose up -d
-################################################################################
-
 version: "2"
 services:
   data:

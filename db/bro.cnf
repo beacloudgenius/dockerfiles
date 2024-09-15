@@ -1,0 +1,11 @@
+[mysqldump]             # NEEDED FOR DUMP
+user=username
+password=password
+
+[mysql]             # NEEDED FOR RESTORE
+user=username
+password=password
+
+[mariabackup]
+user=root
+password=secret
